@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechPulse Marketplace B2B | Servicios TI, Kits y Equipos Certificados</title>
+  <style>
+    :root {
+      --primary: #0f172a;
+      --secondary: #1e293b;
+      --accent: #0284c7;
+      --accent-dark: #0369a1;
+      --success: #16a34a;
+      --purple: #7c3aed;
+      --bg-light: #f1f5f9;
+      --border: #e2e8f0;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background: var(--bg-light); color: var(--text-main); line-height: 1.5; }
+
+    /* BARRA SUPERIOR DXP (SIMULADOR DE ATRIBUCIÓN DE CAMPAÑA) */
+    .dxp-bar { background: #1e1b4b; color: #e0e7ff; padding: 0.55rem 5%; font-size: 0.82rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+    .dxp-bar select { background: #312e81; color: #fff; border: 1px solid #4f46e5; padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.8rem; }
+
+    /* HEADER MARKETPLACE */
+    header { background: var(--primary); color: #fff; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+    .logo { font-size: 1.4rem; font-weight: 800; }
+    .logo span { color: #38bdf8; }
+    .logo small { font-size: 0.75rem; background: var(--accent); padding: 2px 7px; border-radius: 4px; margin-left: 6px; font-weight: 600; }
+    .search-bar { flex: 1; max-width: 420px; margin: 0 1.5rem; display: flex; }
+    .search-bar input { width: 100%; padding: 0.55rem 1rem; border-radius: 6px 0 0 6px; border: none; font-size: 0.9rem; }
+    .search-bar button { background: var(--accent); color: #fff; border: none; padding: 0 1rem; border-radius: 0 6px 6px 0; cursor: pointer; font-weight: 600; }
+    .cart-btn { background: #1e293b; border: 1px solid #38bdf8; color: #fff; padding: 0.55rem 1.1rem; border-radius: 8px; cursor: pointer; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
+    .cart-count { background: var(--success); color: #fff; padding: 2px 7px; border-radius: 50px; font-size: 0.8rem; }
+
+    /* BANNER PERSONALIZADO DXP */
+    .dxp-banner { background: linear-gradient(90deg, #0f172a 0%, #0369a1 100%); color: #fff; padding: 2rem 5%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .dxp-banner h1 { font-size: 1.65rem; margin-bottom: 0.3rem; }
+    .dxp-banner p { color: #bae6fd; font-size: 0.95rem; }
+    .promo-pill { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.85rem; }
+
+    /* LAYOUT PRINCIPAL */
+    .main-container { max-width: 1280px; margin: 2rem auto; padding: 0 5%; display: grid; grid-template-columns: 240px 1fr; gap: 2rem; }
+    
+    /* FILTROS LATERALES */
+    .sidebar { background: #fff; padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border); height: fit-content; }
+    .sidebar h3 { font-size: 1rem; margin-bottom: 1rem; color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+    .filter-btn { display: block; width: 100%; text-align: left; background: none; border: none; padding: 0.6rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.9rem; color: var(--text-main); margin-bottom: 0.3rem; font-weight: 500; }
+    .filter-btn:hover, .filter-btn.active { background: #e0f2fe; color: var(--accent-dark); font-weight: 700; }
+
+    /* GRID DE PRODUCTOS Y SERVICIOS */
+    .catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.5rem; }
+    .item-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; transition: 0.2s; }
+    .item-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.07); border-color: var(--accent); }
+    .vendor-tag { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent); margin-bottom: 0.4rem; display: block; }
+    .vendor-tag.partner { color: var(--purple); }
+    .item-card h4 { font-size: 1.1rem; color: var(--primary); margin-bottom: 0.5rem; }
+    .item-card p { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem; }
+    .price-box { border-top: 1px solid var(--border); padding-top: 1rem; margin-top: auto; }
+    .price { font-size: 1.35rem; font-weight: 800; color: var(--primary); }
+    .price small { font-size: 0.8rem; font-weight: 500; color: var(--text-muted); }
+    .add-controls { display: flex; gap: 0.5rem; margin-top: 0.8rem; }
+    .add-controls input { width: 65px; padding: 0.45rem; border: 1px solid #cbd5e1; border-radius: 6px; text-align: center; font-weight: 600; }
+    .btn-add { flex: 1; background: var(--accent); color: #fff; border: none; padding: 0.55rem; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.88rem; }
+    .btn-add:hover { background: var(--accent-dark); }
+
+    /* DRAWER CARRITO B2B */
+    .cart-modal { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.7); z-index: 1000; justify-content: flex-end; }
+    .cart-panel { background: #fff; width: 100%; max-width: 440px; height: 100%; padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; overflow-y: auto; }
+    .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
+    .cart-items { flex: 1; margin: 1.5rem 0; }
+    .cart-row { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .cart-footer { border-top: 2px solid var(--border); padding-top: 1rem; }
+    .dxp-lead-capture { background: #f8fafc; border: 1px solid #cbd5e1; padding: 1rem; border-radius: 8px; margin: 1rem 0; }
+    .dxp-lead-capture input { width: 100%; padding: 0.6rem; border: 1px solid #cbd5e1; border-radius: 6px; margin-top: 0.5rem; font-size: 0.88rem; }
+    .btn-checkout { width: 100%; background: var(--success); color: #fff; border: none; padding: 0.9rem; border-radius: 8px; font-weight: 700; font-size: 1rem; cursor: pointer; }
+    .checkout-msg { display: none; background: #dcfce7; color: #166534; padding: 1rem; border-radius: 8px; margin-top: 1rem; font-size: 0.88rem; font-weight: 600; }
+
+    @media (max-width: 768px) { .main-container { grid-template-columns: 1fr; } .search-bar { display: none; } }
+  </style>
+</head>
+<body>
+
+  <!-- BARRA DE EXPERIENCIA DIGITAL (DXP - ATRIBUCIÓN DE CAMPAÑA) -->
+  <div class="dxp-bar">
+    <span>⚡ <strong>HubSpot DXP Activo:</strong> Personalización dinámica según campaña de origen</span>
+    <div>
+      <label for="utmSim">Simular clic desde campaña: </label>
+      <select id="utmSim" onchange="aplicarPersonalizacionDXP()">
+        <option value="general">Tráfico Directo (Catálogo General B2B)</option>
+        <option value="linkedin_pyme">LinkedIn Ads — Campaña "Acelera tu PyME con SSD"</option>
+        <option value="google_escuelas">Google Search — Campaña "Clonación de Laboratorios Escolares"</option>
+        <option value="email_circular">Email Marketing — Campaña "Equipos Seminuevos Certificados"</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">TECH<span>PULSE</span> <small>MARKETPLACE B2B</small></div>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Buscar habilitado por lote, kits SSD, pólizas o laptops..." onkeyup="filtrarCatalogo()">
+      <button onclick="filtrarCatalogo()">Buscar</button>
+    </div>
+    <button class="cart-btn" onclick="toggleCart()">
+      🛒 Orden B2B <span id="cartCount" class="cart-count">0</span>
+    </button>
+  </header>
+
+  <!-- BANNER DINÁMICO SEGÚN DXP -->
+  <div class="dxp-banner">
+    <div>
+      <h1 id="bannerTitle">Catálogo Integral de Habilitado, Refacciones y Flotas Certificadas</h1>
+      <p id="bannerSub">Adquiere servicios por lote, kits de actualización de mayoristas y equipos reacondicionados con garantía QR.</p>
+    </div>
+    <div class="promo-pill" id="bannerTag">🎯 Código DXP: <strong>LOTE15</strong> (5% desc. automático en +15 unidades)</div>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <div class="main-container">
+    <!-- FILTROS -->
+    <aside class="sidebar">
+      <h3>Categorías del Marketplace</h3>
+      <button class="filter-btn active" onclick="setCategoria('todos', this)">Todos los Productos/Servicios</button>
+      <button class="filter-btn" onclick="setCategoria('servicios', this)">🛠️ Habilitado por Lote</button>
+      <button class="filter-btn" onclick="setCategoria('polizas', this)">🔄 Pólizas y Suscripciones</button>
+      <button class="filter-btn" onclick="setCategoria('hardware', this)">💾 Kits SSD / RAM (Aliados)</button>
+      <button class="filter-btn" onclick="setCategoria('seminuevos', this)">💻 Equipos Seminuevos QR</button>
+
+      <div style="margin-top:1.5rem; padding-top:1rem; border-top:1px solid var(--border); font-size:0.82rem; color:var(--text-muted);">
+        <strong>Ecosistema Multi-Proveedor:</strong><br>
+        • <span style="color:var(--accent); font-weight:700;">Taller Central:</span> Mano de obra y clonación.<br>
+        • <span style="color:var(--purple); font-weight:700;">Aliados Certificados:</span> Hardware mayorista y técnicos de red.
+      </div>
+    </aside>
+
+    <!-- CATÁLOGO -->
+    <main class="catalog-grid" id="catalogGrid"></main>
+  </div>
+
+  <!-- MODAL CARRITO / ORDEN DE COMPRA B2B -->
+  <div id="cartModal" class="cart-modal">
+    <div class="cart-panel">
+      <div>
+        <div class="cart-header">
+          <h3>Orden de Compra B2B</h3>
+          <button onclick="toggleCart()" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+          <p style="color:var(--text-muted); text-align:center; margin-top:2rem;">Tu orden está vacía. Agrega servicios o kits del catálogo.</p>
+        </div>
+      </div>
+
+      <div class="cart-footer">
+        <div style="display:flex; justify-content:space-between; font-size:0.9rem; margin-bottom:0.4rem;">
+          <span>Descuento por Volumen B2B:</span>
+          <strong id="cartDiscount" style="color:var(--success);">$0 MXN</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:1.25rem; font-weight:800; margin-bottom:1rem;">
+          <span>Total Estimado:</span>
+          <span id="cartTotal">$0 MXN</span>
+        </div>
+
+        <div class="dxp-lead-capture">
+          <label style="font-size:0.82rem; font-weight:700;">Sincronizar orden con CRM y WhatsApp:</label>
+          <input type="email" id="leadEmail" placeholder="Correo corporativo (ej. compras@empresa.com)">
+        </div>
+
+        <button class="btn-checkout" onclick="finalizarOrden()">Generar Orden y Recibir Cotización PDF</button>
+        <div id="checkoutMsg" class="checkout-msg"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const productos = [
+      { id: 1, cat: 'servicios', vendor: 'Taller Central TechPulse', isPartner: false, title: 'Habilitado Lógico por Lote (Nivel 1)', desc: 'Borrado seguro certificado, limpieza profunda y clonación masiva de imagen maestra.', price: 850, unit: 'por equipo' },
+      { id: 2, cat: 'servicios', vendor: 'Taller Central TechPulse', isPartner: false, title: 'Habilitado Integral + Upgrade SSD 480GB', desc: 'Mantenimiento físico completo, migración a SSD de alta velocidad y etiqueta QR.', price: 1450, unit: 'por equipo' },
+      { id: 3, cat: 'polizas', vendor: 'Taller Central TechPulse', isPartner: false, title: 'Póliza Mensual "Flota Siempre Lista"', desc: 'Habilitados express ilimitados por rotación de personal + portal de inventario QR.', price: 150, unit: 'equipo / mes' },
+      { id: 4, cat: 'hardware', vendor: 'Aliado Mayorista: Ingram/CT', isPartner: true, title: 'Kit Aceleración Corporativa (SSD + RAM)', desc: 'Unidad SSD 480GB + Módulo 8GB RAM DDR4 con instalación certificada incluida.', price: 1190, unit: 'por kit' },
+      { id: 5, cat: 'hardware', vendor: 'Aliado Seguridad: Bitdefender B2B', isPartner: true, title: 'Licencia Antivirus Endpoint Corporativo', desc: 'Protección centralizada en la nube por 12 meses desplegada en imagen maestra.', price: 420, unit: 'licencia anual' },
+      { id: 6, cat: 'seminuevos', vendor: 'Economía Circular TechPulse', isPartner: false, title: 'Laptop Lenovo ThinkPad T14 (Grado A)', desc: 'Equipo reacondicionado certificado, Core i5, 16GB RAM, SSD 512GB y garantía QR 6 meses.', price: 5800, unit: 'por unidad' }
+    ];
+
+    let categoriaActual = 'todos';
+    let carrito = [];
+
+    function renderCatalogo(lista) {
+      const grid = document.getElementById('catalogGrid');
+      grid.innerHTML = '';
+      lista.forEach(p => {
+        grid.innerHTML += `
+          <div class="item-card">
+            <div>
+              <span class="vendor-tag ${p.isPartner ? 'partner' : ''}">${p.vendor}</span>
+              <h4>${p.title}</h4>
+              <p>${p.desc}</p>
+            </div>
+            <div class="price-box">
+              <div class="price">$${p.price.toLocaleString('es-MX')} MXN <small>${p.unit}</small></div>
+              <div class="add-controls">
+                <input type="number" id="qty-${p.id}" value="5" min="1" max="200">
+                <button class="btn-add" onclick="agregarAlCarrito(${p.id})">+ Agregar</button>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function setCategoria(cat, btn) {
+      categoriaActual = cat;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filtrarCatalogo();
+    }
+
+    function filtrarCatalogo() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const filtrados = productos.filter(p => {
+        const matchCat = categoriaActual === 'todos' || p.cat === categoriaActual;
+        const matchText = p.title.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
+        return matchCat && matchText;
+      });
+      renderCatalogo(filtrados);
+    }
+
+    // Personalización DXP según campaña UTM
+    function aplicarPersonalizacionDXP() {
+      const utm = document.getElementById('utmSim').value;
+      const title = document.getElementById('bannerTitle');
+      const sub = document.getElementById('bannerSub');
+      const tag = document.getElementById('bannerTag');
+
+      if (utm === 'linkedin_pyme') {
+        title.innerText = 'Acelera las computadoras de tu PyME sin comprar equipo nuevo';
+        sub.innerText = 'Paquetes recomendados de Upgrade SSD + RAM listos en menos de 72 horas.';
+        tag.innerHTML = '🎯 Campaña LinkedIn PyME: <strong>1 Equipo Muestra Gratis</strong> al cotizar';
+        setCategoria('hardware', document.querySelectorAll('.filter-btn')[3]);
+      } else if (utm === 'google_escuelas') {
+        title.innerText = 'Habilitado Masivo y Clonación para Laboratorios Escolares';
+        sub.innerText = 'Prepara tus aulas antes del inicio de semestre con recolección y entrega segura.';
+        tag.innerHTML = '🎯 Campaña Escuelas: <strong>15% Desc.</strong> en lotes mayores a 50 equipos';
+        setCategoria('servicios', document.querySelectorAll('.filter-btn')[1]);
+      } else if (utm === 'email_circular') {
+        title.innerText = 'Equipos Empresariales Reacondicionados con Garantía QR';
+        sub.innerText = 'Extiende tu presupuesto de TI con laptops Grado A auditadas en nuestro taller.';
+        tag.innerHTML = '🎯 Campaña Economía Circular: <strong>Envío asegurado sin costo</strong>';
+        setCategoria('seminuevos', document.querySelectorAll('.filter-btn')[4]);
+      } else {
+        title.innerText = 'Catálogo Integral de Habilitado, Refacciones y Flotas Certificadas';
+        sub.innerText = 'Adquiere servicios por lote, kits de actualización de mayoristas y equipos reacondicionados con garantía QR.';
+        tag.innerHTML = '🎯 Código DXP: <strong>LOTE15</strong> (5% desc. automático en +15 unidades)';
+        setCategoria('todos', document.querySelectorAll('.filter-btn')[0]);
+      }
+    }
+
+    function agregarAlCarrito(id) {
+      const prod = productos.find(p => p.id === id);
+      const qty = parseInt(document.getElementById(`qty-${id}`).value) || 1;
+      const existente = carrito.find(item => item.id === id);
+      if (existente) existente.qty += qty;
+      else carrito.push({ ...prod, qty });
+      actualizarCarritoUI();
+    }
+
+    function actualizarCarritoUI() {
+      const count = carrito.reduce((acc, item) => acc + item.qty, 0);
+      document.getElementById('cartCount').innerText = count;
+
+      const container = document.getElementById('cartItems');
+      if (carrito.length === 0) {
+        container.innerHTML = '<p style="color:var(--text-muted); text-align:center; margin-top:2rem;">Tu orden está vacía.</p>';
+        document.getElementById('cartTotal').innerText = '$0 MXN';
+        document.getElementById('cartDiscount').innerText = '$0 MXN';
+        return;
+      }
+
+      let subtotal = 0;
+      container.innerHTML = '';
+      carrito.forEach((item, index) => {
+        const lineTotal = item.price * item.qty;
+        subtotal += lineTotal;
+        container.innerHTML += `
+          <div class="cart-row">
+            <div>
+              <strong>${item.title}</strong><br>
+              <small>${item.qty} x $${item.price.toLocaleString('es-MX')} MXN</small>
+            </div>
+            <div style="text-align:right;">
+              <strong>$${lineTotal.toLocaleString('es-MX')}</strong><br>
+              <button onclick="eliminarItem(${index})" style="color:#dc2626; background:none; border:none; font-size:0.78rem; cursor:pointer;">Quitar</button>
+            </div>
+          </div>
+        `;
+      });
+
+      // Aplicar descuento B2B si suma 15 o más unidades
+      const descuento = count >= 15 ? Math.round(subtotal * 0.05) : 0;
+      const total = subtotal - descuento;
+      document.getElementById('cartDiscount').innerText = `-$${descuento.toLocaleString('es-MX')} MXN`;
+      document.getElementById('cartTotal').innerText = `$${total.toLocaleString('es-MX')} MXN`;
+    }
+
+    function eliminarItem(idx) {
+      carrito.splice(idx, 1);
+      actualizarCarritoUI();
+    }
+
+    function toggleCart() {
+      const modal = document.getElementById('cartModal');
+      modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function finalizarOrden() {
+      const email = document.getElementById('leadEmail').value;
+      const utm = document.getElementById('utmSim').value;
+      const msg = document.getElementById('checkoutMsg');
+      if (!email) {
+        alert('Por favor ingresa tu correo corporativo para vincular la orden con el CRM.');
+        return;
+      }
+      msg.style.display = 'block';
+      msg.innerHTML = `✓ Orden registrada en HubSpot CRM para <strong>${email}</strong>.<br>Atribución de campaña guardada: <code>utm_campaign=${utm}</code>. Recibirás tu cotización formal y enlace de pago en tu correo.`;
+    }
+
+    renderCatalogo(productos);
+  </script>
+</body>
+</html>
